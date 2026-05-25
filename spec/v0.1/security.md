@@ -1,10 +1,10 @@
 # OLE Security Profile v0.1
 
-**Status:** Public Draft for Comment
+**Status:** v0.1 — Published
 **Published by:** Open Legal Exchange (openlegalexchange.org)
 **Author:** Philippe Chaunu, CyVine LLC
 **Date:** May 2026
-**Maturity:** Draft — requirements will be finalized before v1.0
+**Maturity:** v0.1 security baseline — additional tiers in future versions
 
 ---
 
@@ -12,7 +12,7 @@
 
 This document defines the security requirements, trust model, and implementation guidance for OLE-conformant systems in v0.1.
 
-v0.1 security requirements are intentionally practical. They establish a workable security baseline without requiring infrastructure that is beyond the reach of small implementation teams. Additional security tiers and formal certification procedures will be defined in future versions.
+v0.1 security requirements establish a practical security baseline open for implementation. Additional security tiers, formal certification procedures, and verified credential integration will be defined in future versions.
 
 ---
 

@@ -1,19 +1,19 @@
 # CLEAR v0.1 Draft — Legal Referral Exchange
 
-**Status:** Public Draft  
+**Status:** v0.1 — Published  
 **Published by:** Open Legal Exchange (openlegalexchange.org)  
 **Author:** Philippe Chaunu, CyVine LLC  
 **Date:** May 2026  
-**Maturity:** Draft — not a production specification  
+**Maturity:** v0.1 — open for implementation  
 **Module namespace:** `openlegalexchange.org/ns/clear`
 
 ---
 
 ## Status of This Document
 
-This document is a draft specification for CLEAR, the Legal Referral Exchange module of OLE. It defines the referral workflow, resource model, status values, data minimization principles, consent requirements, and API surface for v0.1.
+This document is the v0.1 specification for CLEAR, the Legal Referral Exchange module of OLE. It defines the referral workflow, resource model, status values, data minimization principles, consent requirements, and API surface.
 
-This specification does not define final normative JSON Schemas, production endpoint requirements, conformance tests, or certification procedures. Those artifacts will be published separately as the specification matures.
+v0.1 defines the data model and protocol surface and is open for implementation. Normative JSON Schemas, a conformance test suite, and production certification procedures are scoped to future versions.
 
 ---
 
@@ -268,7 +268,66 @@ Webhook events SHOULD be signed using `OLE-Signature`, `OLE-Timestamp`, and `OLE
 
 ---
 
-## Not Yet Defined in v0.1
+## Complete Referral Example
+
+The following is a complete `Referral` resource for a CLEAR Tier 1 exchange.
+
+```json
+{
+  "resourceType": "Referral",
+  "id": "ole_ref_2026_0522_001",
+  "oleVersion": "0.1",
+  "module": "clear",
+  "referralType": "attorney_to_attorney",
+  "status": "sent",
+  "createdAt": "2026-05-22T16:45:00-04:00",
+  "updatedAt": "2026-05-22T16:46:00-04:00",
+  "sentAt": "2026-05-22T16:46:00-04:00",
+  "referringInstitution": "ole_inst_tejeda_law",
+  "receivingInstitution": "ole_inst_santos_hoa_law",
+  "participants": [
+    { "role": "referring_attorney", "actor": "ole_actor_roxana_tejeda" },
+    { "role": "receiving_attorney", "actor": "ole_actor_maria_santos" },
+    { "role": "prospect", "prospect": "ole_prospect_2026_0522_001" }
+  ],
+  "matterSummary": {
+    "practiceArea": "housing",
+    "subPracticeArea": "hoa_dispute",
+    "jurisdiction": {
+      "country": "US",
+      "state": "FL",
+      "county": "Miami-Dade"
+    },
+    "summary": "Prospect reports dispute with HOA regarding notice and assessment procedure.",
+    "urgency": "standard",
+    "rulesImplicated": ["ole_rule_fs718"]
+  },
+  "feeArrangement": {
+    "feeSharingExpected": true,
+    "ruleBasis": ["ole_rule_fl_bar_4_1_5"],
+    "requiresWrittenConsent": true,
+    "consentRecord": "ole_consent_2026_0522_001"
+  },
+  "consentRecord": "ole_consent_2026_0522_001",
+  "visibility": { "scope": "participant_visible" },
+  "audit": {
+    "createdBy": "ole_actor_roxana_tejeda",
+    "auditTrail": ["ole_audit_2026_0522_001"]
+  },
+  "externalIds": [],
+  "extensions": {}
+}
+```
+
+This referral is accompanied by:
+- A `ConsentRecord` (`ole_consent_2026_0522_001`) documenting the prospect's consent to share their matter details with the receiving attorney.
+- An `AuditEvent` (`ole_audit_2026_0522_001`) recording that the referral was created and sent.
+
+See [core.md](core.md) for `ConsentRecord` and `AuditEvent` examples.
+
+---
+
+## Scope of Future Versions
 
 The following are planned for future CLEAR specifications:
 

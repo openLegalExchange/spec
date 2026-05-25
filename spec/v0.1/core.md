@@ -1,10 +1,10 @@
 # OLE Core v0.1 Draft
 
-**Status:** Public Draft  
+**Status:** v0.1 — Published  
 **Published by:** Open Legal Exchange (openlegalexchange.org)  
 **Author:** Philippe Chaunu, CyVine LLC  
 **Date:** May 2026  
-**Maturity:** Founding architecture — draft conventions only
+**Maturity:** v0.1 foundation — production schemas in future versions
 
 ---
 
@@ -12,7 +12,7 @@
 
 This document defines the shared conventions for all OLE modules: the resource envelope, identifier policy, visibility scope, consent model, audit model, external identifier support, and extension policy.
 
-These conventions are draft-level in v0.1. They establish a consistent baseline for early implementation work. Final JSON Schemas, machine-testable conformance requirements, and normative language will be published in a future Core specification.
+These conventions are stable for v0.1 and open for implementation. Final normative JSON Schemas, machine-testable conformance requirements, and a production conformance test suite will be published in a future Core specification.
 
 ---
 
@@ -434,7 +434,7 @@ Receiving systems SHOULD reject events with stale timestamps (beyond a configura
 
 ---
 
-## Not Yet Defined in v0.1
+## Scope of Future Versions
 
 The following are planned for future Core specifications:
 

@@ -1,10 +1,10 @@
 # OLE Conformance Profiles v0.1
 
-**Status:** Public Draft for Comment
+**Status:** v0.1 — Published
 **Published by:** Open Legal Exchange (openlegalexchange.org)
 **Author:** Philippe Chaunu, CyVine LLC
 **Date:** May 2026
-**Maturity:** Draft — no certification available in v0.1
+**Maturity:** v0.1 — self-declaration only; formal certification in future versions
 
 ---
 
@@ -12,7 +12,7 @@
 
 This document defines the OLE conformance model, conformance profiles, and conformance status values for v0.1.
 
-No formal certification program exists in v0.1. Systems may self-declare conformance against defined profiles. Third-party validation and formal certification will be defined in a future version.
+No formal certification program exists in v0.1. Systems may self-declare conformance against defined profiles using the `self_declared` status value. Third-party validation and formal certification will be defined in a future version.
 
 ---
 

@@ -1,6 +1,6 @@
 # OLE Governance Draft
 
-**Status:** Draft  
+**Status:** v0.1 — Published  
 **Published by:** Open Legal Exchange (openlegalexchange.org)  
 **Date:** May 2026
 

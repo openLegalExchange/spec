@@ -2,11 +2,11 @@
 
 ## Founding Architecture v0.1
 
-**Status:** Public Draft for Comment
+**Status:** v0.1 — Published
 **Published by:** Open Legal Exchange (openlegalexchange.org)
 **Author:** Philippe Chaunu, CyVine LLC
 **Date:** May 2026
-**Maturity:** Founding architecture and draft data model
+**Maturity:** v0.1 founding architecture — production schemas in future versions
 **Primary implementation path:** CLEAR — Legal Referral Exchange
 **License:** Specification text: CC BY 4.0. Schemas and code: Apache 2.0.
 
@@ -14,13 +14,13 @@
 
 ## Status of This Document
 
-This document is the founding architecture and public draft for the Open Legal Exchange Protocol (OLE).
+This document is the founding architecture and v0.1 publication of the Open Legal Exchange Protocol (OLE).
 
 It defines the purpose of OLE, the six governance primitives, the modular standard family, the adoption model, the trust architecture, and the first implementation path through CLEAR, the Legal Referral Exchange module.
 
-This v0.1 document does not yet freeze final JSON Schemas, OpenAPI definitions, production endpoint requirements, conformance tests, certification procedures, or governance voting procedures. Those artifacts will be published separately as the standard matures.
+v0.1 defines the conceptual architecture, governance primitives, module design, adoption tiers, and core conventions. Final normative JSON Schemas, OpenAPI definitions, production endpoint requirements, conformance tests, certification procedures, and governance voting procedures are scoped to future versions and will be published as the standard matures.
 
-The goal of v0.1 is to make the architecture public, invite review, support early implementation experiments, and establish a stable conceptual foundation before locking down machine-testable specifications.
+The goal of v0.1 is to establish a stable conceptual foundation, make the architecture public, and support early implementation work.
 
 ---
 
