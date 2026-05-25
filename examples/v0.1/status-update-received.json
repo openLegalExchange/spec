@@ -1,0 +1,16 @@
+{
+  "resourceType": "StatusUpdate",
+  "id": "ole_status_2026_0522_001",
+  "oleVersion": "0.1",
+  "module": "clear",
+  "referral": "ole_ref_2026_0522_001",
+  "previousStatus": "sent",
+  "newStatus": "received",
+  "updatedBy": "ole_actor_maria_santos",
+  "updatedAt": "2026-05-22T17:02:00-04:00",
+  "note": "Referral received and pending conflict check.",
+  "visibility": {
+    "scope": "participant_visible"
+  },
+  "extensions": {}
+}

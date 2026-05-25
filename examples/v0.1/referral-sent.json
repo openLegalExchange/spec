@@ -1,0 +1,60 @@
+{
+  "resourceType": "Referral",
+  "id": "ole_ref_2026_0522_001",
+  "oleVersion": "0.1",
+  "module": "clear",
+  "referralType": "attorney_to_attorney",
+  "status": "sent",
+  "createdAt": "2026-05-22T16:45:00-04:00",
+  "updatedAt": "2026-05-22T16:46:00-04:00",
+  "sentAt": "2026-05-22T16:46:00-04:00",
+  "referringInstitution": "ole_inst_tejeda_law",
+  "receivingInstitution": "ole_inst_santos_hoa_law",
+  "participants": [
+    {
+      "role": "referring_attorney",
+      "actor": "ole_actor_roxana_tejeda"
+    },
+    {
+      "role": "receiving_attorney",
+      "actor": "ole_actor_maria_santos"
+    },
+    {
+      "role": "prospect",
+      "prospect": "ole_prospect_2026_0522_001"
+    }
+  ],
+  "matterSummary": {
+    "practiceArea": "housing",
+    "subPracticeArea": "hoa_dispute",
+    "jurisdiction": {
+      "country": "US",
+      "state": "FL",
+      "county": "Miami-Dade"
+    },
+    "summary": "Prospect reports dispute with HOA regarding notice and assessment procedure.",
+    "urgency": "standard",
+    "rulesImplicated": [
+      "ole_rule_fs718"
+    ]
+  },
+  "feeArrangement": {
+    "feeSharingExpected": true,
+    "ruleBasis": [
+      "ole_rule_fl_bar_4_1_5"
+    ],
+    "requiresWrittenConsent": true,
+    "consentRecord": "ole_consent_2026_0522_001"
+  },
+  "visibility": {
+    "scope": "participant_visible"
+  },
+  "audit": {
+    "createdBy": "ole_actor_roxana_tejeda",
+    "auditTrail": [
+      "ole_audit_2026_0522_001"
+    ]
+  },
+  "externalIds": [],
+  "extensions": {}
+}

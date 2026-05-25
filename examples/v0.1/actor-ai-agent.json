@@ -1,0 +1,64 @@
+{
+  "resourceType": "Actor",
+  "id": "ole_actor_cg_receptionist_v2",
+  "oleVersion": "0.1",
+  "module": "core",
+  "actorType": "ai_agent",
+  "sector": [
+    "legal"
+  ],
+  "name": {
+    "display": "CertusGate AI Receptionist v2"
+  },
+  "aiProperties": {
+    "modelProvider": "example_provider",
+    "modelFamily": "example_model_family",
+    "version": "2.1.0",
+    "operator": "ole_inst_cyvine",
+    "deployedBy": "ole_inst_tejeda_law",
+    "conformanceStatus": "self_declared",
+    "conformanceProfile": "ole-ai-actor-draft-v0.1",
+    "validatedAt": null,
+    "validatedBy": null,
+    "capabilities": [
+      "intake_classification",
+      "practice_area_routing",
+      "sms_notification",
+      "appointment_scheduling"
+    ],
+    "constraints": {
+      "requiresHumanApproval": [
+        "referral.send",
+        "referral.accept",
+        "fee.manage",
+        "document.share",
+        "prospect.data_share"
+      ],
+      "autonomousActions": [
+        "intake.classify",
+        "notification.send_alert",
+        "status.read"
+      ],
+      "maxActionsPerHour": 100,
+      "humanOverrideRequired": true,
+      "explainabilityRequired": true
+    },
+    "auditRequirements": {
+      "logAllActions": true,
+      "logInputs": true,
+      "logOutputs": true,
+      "logDecisionRationale": true,
+      "logEvidenceReferences": true,
+      "logModelVersion": true,
+      "logPolicyVersion": true,
+      "retentionDays": 2555
+    }
+  },
+  "institutionMemberships": [
+    "ole_membership_ai_receptionist_tejeda"
+  ],
+  "visibility": {
+    "scope": "institution_visible"
+  },
+  "extensions": {}
+}

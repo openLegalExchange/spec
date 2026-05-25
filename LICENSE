@@ -1,0 +1,80 @@
+Creative Commons Attribution 4.0 International
+
+This specification text for Open Legal Exchange (OLE) is licensed under
+the Creative Commons Attribution 4.0 International License.
+
+To view a copy of this license, visit:
+https://creativecommons.org/licenses/by/4.0/
+
+Or send a letter to:
+Creative Commons
+PO Box 1866
+Mountain View, CA 94042
+USA
+
+---
+
+CREATIVE COMMONS CORPORATION IS NOT A LAW FIRM AND DOES NOT PROVIDE
+LEGAL SERVICES. DISTRIBUTION OF THIS DOCUMENT DOES NOT CREATE AN
+ATTORNEY-CLIENT RELATIONSHIP. CREATIVE COMMONS PROVIDES THIS
+INFORMATION ON AN "AS-IS" BASIS. CREATIVE COMMONS MAKES NO WARRANTIES
+REGARDING THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS
+PROVIDED HEREUNDER, AND DISCLAIMS LIABILITY FOR DAMAGES RESULTING FROM
+THE USE OF THIS DOCUMENT OR THE INFORMATION OR WORKS PROVIDED
+HEREUNDER.
+
+---
+
+Statement of Purpose
+
+The OLE specification text is made available under CC BY 4.0 to:
+
+1. Enable anyone to read, implement, adapt, and build upon the specification.
+2. Allow implementers to publish compliant systems without requiring a license grant.
+3. Allow researchers, standards bodies, and policymakers to reference, translate, and incorporate OLE concepts.
+4. Require attribution so that the source and stewardship of the standard remain clear.
+
+---
+
+License Text (CC BY 4.0 Summary)
+
+You are free to:
+
+  Share — copy and redistribute the material in any medium or format
+  Adapt — remix, transform, and build upon the material for any purpose,
+           even commercially
+
+Under the following terms:
+
+  Attribution — You must give appropriate credit, provide a link to the
+                license, and indicate if changes were made. You may do so
+                in any reasonable manner, but not in any way that suggests
+                the licensor endorses you or your use.
+
+No additional restrictions — You may not apply legal terms or technological
+measures that legally restrict others from doing anything the license permits.
+
+---
+
+Full License Text
+
+The full text of the Creative Commons Attribution 4.0 International License
+is available at:
+
+  https://creativecommons.org/licenses/by/4.0/legalcode
+
+---
+
+Separate License for Schemas and Code
+
+JSON Schemas, OpenAPI definitions, and any reference implementation code
+in this repository are licensed separately under the Apache License 2.0.
+
+See LICENSE-NOTICE.md for the dual-track licensing model and marks policy.
+
+---
+
+Copyright Notice
+
+Copyright 2026 Open Legal Exchange, initiated by CyVine LLC (Philippe Chaunu,
+Miami FL). All rights reserved except as granted by the applicable license.

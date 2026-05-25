@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openlegalexchange.org/schemas/core/v0.1/consent-record.schema.json",
+  "title": "OLE ConsentRecord",
+  "description": "Documents explicit consent for personal data exchange in an OLE transaction. Draft schema — v0.1.",
+  "type": "object",
+  "required": [
+    "resourceType",
+    "id",
+    "oleVersion",
+    "subject",
+    "grantedTo",
+    "grantedBy",
+    "purpose",
+    "dataScopes",
+    "status",
+    "grantedAt",
+    "visibility",
+    "extensions"
+  ],
+  "properties": {
+    "resourceType": {
+      "const": "ConsentRecord",
+      "description": "Always 'ConsentRecord'."
+    },
+    "id": {
+      "type": "string",
+      "description": "Stable identifier for this consent record."
+    },
+    "oleVersion": {
+      "type": "string",
+      "description": "OLE version used, e.g., '0.1'."
+    },
+    "module": {
+      "type": "string",
+      "description": "OLE module namespace. Usually 'core'."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this consent record was created."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this consent record was last updated."
+    },
+    "subject": {
+      "type": "string",
+      "description": "OLE ID of the person whose data is covered by this consent."
+    },
+    "grantedTo": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "OLE Institution or Actor IDs authorized to receive data under this consent."
+    },
+    "grantedBy": {
+      "type": "string",
+      "description": "OLE ID of the person who granted consent (usually the subject)."
+    },
+    "purpose": {
+      "type": "string",
+      "description": "Purpose of the consent, e.g., 'legal_referral_review'."
+    },
+    "dataScopes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Data categories covered by this consent, e.g., 'contact_information', 'matter_summary'."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "revoked", "expired"],
+      "description": "Current status of this consent record."
+    },
+    "grantedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when consent was granted."
+    },
+    "expiresAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this consent expires. Null if no expiry."
+    },
+    "revokedAt": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when consent was revoked. Null if not revoked."
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Documentation of how consent was obtained.",
+      "properties": {
+        "method": {
+          "type": "string",
+          "description": "Method of obtaining consent, e.g., 'electronic_acknowledgment', 'written_signature', 'verbal_recorded'."
+        },
+        "ipAddressRecorded": {
+          "type": "boolean"
+        },
+        "userAgentRecorded": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "visibility": {
+      "type": "object",
+      "required": ["scope"],
+      "properties": {
+        "scope": {
+          "type": "string",
+          "enum": [
+            "private",
+            "participant_visible",
+            "institution_visible",
+            "network_visible",
+            "public",
+            "aggregate_public"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "externalIds": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Namespaced implementer-specific fields."
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openlegalexchange.org/schemas/core/v0.1/audit-event.schema.json",
+  "title": "OLE AuditEvent",
+  "description": "A structured log record of a consequential OLE action. Draft schema — v0.1.",
+  "type": "object",
+  "required": [
+    "resourceType",
+    "id",
+    "oleVersion",
+    "actor",
+    "actorType",
+    "actionType",
+    "resourceType_ref",
+    "resourceId",
+    "timestamp",
+    "visibility",
+    "extensions"
+  ],
+  "properties": {
+    "resourceType": {
+      "const": "AuditEvent",
+      "description": "Always 'AuditEvent'."
+    },
+    "id": {
+      "type": "string",
+      "description": "Stable identifier for this audit event."
+    },
+    "oleVersion": {
+      "type": "string",
+      "description": "OLE version used, e.g., '0.1'."
+    },
+    "module": {
+      "type": "string",
+      "description": "OLE module namespace, e.g., 'core' or 'clear'."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when this audit event was created."
+    },
+    "actor": {
+      "type": "string",
+      "description": "OLE Actor ID of the actor who performed the action."
+    },
+    "actorType": {
+      "type": "string",
+      "enum": ["human", "ai_agent", "system", "institution_as_actor"],
+      "description": "Type of actor that performed the action."
+    },
+    "actionType": {
+      "type": "string",
+      "description": "Enumerated action type, e.g., 'referral.sent', 'consent.granted', 'status.updated', 'intake.classify'."
+    },
+    "resourceType_ref": {
+      "type": "string",
+      "description": "OLE resource type that was acted upon, e.g., 'Referral', 'ConsentRecord'."
+    },
+    "resourceId": {
+      "type": "string",
+      "description": "OLE ID of the resource that was acted upon."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of the action."
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional human-readable note about the event."
+    },
+    "aiAudit": {
+      "type": "object",
+      "description": "Additional audit fields required when actorType is 'ai_agent'.",
+      "properties": {
+        "logInputs": {
+          "type": "object",
+          "description": "Structured record of inputs provided to the AI agent for this action."
+        },
+        "logOutputs": {
+          "type": "object",
+          "description": "Structured record of outputs produced by the AI agent."
+        },
+        "logDecisionRationale": {
+          "type": "string",
+          "description": "Human-readable summary of the reasoning behind the AI decision."
+        },
+        "logEvidenceReferences": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "OLE IDs or external references for documents, rules, or data sources consulted."
+        },
+        "logModelVersion": {
+          "type": "string",
+          "description": "Version identifier of the AI model used."
+        },
+        "logPolicyVersion": {
+          "type": "string",
+          "description": "Version identifier of the policy or constraint set applied."
+        }
+      },
+      "additionalProperties": true
+    },
+    "visibility": {
+      "type": "object",
+      "required": ["scope"],
+      "properties": {
+        "scope": {
+          "type": "string",
+          "enum": [
+            "private",
+            "participant_visible",
+            "institution_visible",
+            "network_visible",
+            "public",
+            "aggregate_public"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "externalIds": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Namespaced implementer-specific fields."
+    }
+  },
+  "additionalProperties": true
+}

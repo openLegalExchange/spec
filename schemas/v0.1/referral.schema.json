@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openlegalexchange.org/schemas/clear/v0.1/referral.schema.json",
+  "title": "OLE CLEAR Referral",
+  "type": "object",
+  "required": [
+    "resourceType",
+    "id",
+    "oleVersion",
+    "module",
+    "referralType",
+    "status",
+    "participants",
+    "matterSummary",
+    "visibility",
+    "extensions"
+  ],
+  "properties": {
+    "resourceType": {
+      "const": "Referral"
+    },
+    "id": {
+      "type": "string"
+    },
+    "oleVersion": {
+      "type": "string"
+    },
+    "module": {
+      "const": "clear"
+    },
+    "referralType": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "sent",
+        "received",
+        "under_review",
+        "accepted",
+        "declined",
+        "conflict_check_pending",
+        "client_contacted",
+        "engagement_pending",
+        "engaged",
+        "closed_no_engagement",
+        "closed_referred_elsewhere",
+        "closed_completed",
+        "cancelled"
+      ]
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object"
+      }
+    },
+    "matterSummary": {
+      "type": "object"
+    },
+    "visibility": {
+      "type": "object"
+    },
+    "externalIds": {
+      "type": "array"
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,32 @@
+{
+  "resourceType": "ConsentRecord",
+  "id": "ole_consent_2026_0522_001",
+  "oleVersion": "0.1",
+  "module": "core",
+  "createdAt": "2026-05-22T16:44:00-04:00",
+  "updatedAt": "2026-05-22T16:44:00-04:00",
+  "subject": "ole_prospect_2026_0522_001",
+  "grantedTo": [
+    "ole_inst_santos_hoa_law"
+  ],
+  "grantedBy": "ole_prospect_2026_0522_001",
+  "purpose": "legal_referral_review",
+  "dataScopes": [
+    "contact_information",
+    "matter_summary",
+    "uploaded_documents"
+  ],
+  "status": "active",
+  "grantedAt": "2026-05-22T16:44:00-04:00",
+  "expiresAt": "2026-06-22T16:44:00-04:00",
+  "revokedAt": null,
+  "evidence": {
+    "method": "electronic_acknowledgment",
+    "ipAddressRecorded": true,
+    "userAgentRecorded": true
+  },
+  "visibility": {
+    "scope": "participant_visible"
+  },
+  "extensions": {}
+}

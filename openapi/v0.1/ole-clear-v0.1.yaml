@@ -1,0 +1,588 @@
+openapi: 3.1.0
+info:
+  title: OLE CLEAR API
+  version: 0.1.0-draft
+  description: |
+    **Draft OpenAPI specification for the CLEAR Legal Referral Exchange module of OLE.**
+
+    This is a founding architecture draft. It defines the minimum API surface for a
+    CLEAR Tier 1 implementation. Request and response schemas are illustrative; they
+    will be finalized in a future normative specification.
+
+    This specification does not represent a production-ready API. It is published to
+    support early implementation experiments and community review.
+
+    **Website:** openlegalexchange.org
+  contact:
+    name: Open Legal Exchange
+    url: https://openlegalexchange.org
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+
+servers:
+  - url: https://example.com/ole/v1
+    description: Example server (replace with your OLE endpoint)
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Bearer token authentication. Required for all mutation operations.
+
+  schemas:
+    OleVersion:
+      type: string
+      example: "0.1"
+      description: OLE specification version used by this resource.
+
+    Visibility:
+      type: object
+      required: [scope]
+      properties:
+        scope:
+          type: string
+          enum:
+            - private
+            - participant_visible
+            - institution_visible
+            - network_visible
+            - public
+            - aggregate_public
+          description: Intended access scope for this resource.
+
+    ExternalId:
+      type: object
+      required: [system, type, value]
+      properties:
+        system:
+          type: string
+          example: certusgate
+        type:
+          type: string
+          example: matter_id
+        value:
+          type: string
+          example: mat_12345
+
+    MatterSummary:
+      type: object
+      required: [practiceArea, jurisdiction]
+      properties:
+        practiceArea:
+          type: string
+          example: housing
+        subPracticeArea:
+          type: string
+          example: hoa_dispute
+        jurisdiction:
+          type: object
+          properties:
+            country:
+              type: string
+              example: US
+            state:
+              type: string
+              example: FL
+            county:
+              type: string
+              example: Miami-Dade
+        summary:
+          type: string
+          example: Prospect reports dispute with HOA regarding notice and assessment procedure.
+        urgency:
+          type: string
+          enum: [standard, urgent, emergency]
+          default: standard
+        rulesImplicated:
+          type: array
+          items:
+            type: string
+          example: ["ole_rule_fs718"]
+
+    ReferralParticipant:
+      type: object
+      required: [role]
+      properties:
+        role:
+          type: string
+          enum:
+            - referring_attorney
+            - receiving_attorney
+            - referring_institution
+            - receiving_institution
+            - prospect
+            - referral_coordinator
+        actor:
+          type: string
+          description: OLE Actor ID (for human or AI participants).
+        prospect:
+          type: string
+          description: OLE Prospect or subject ID (for prospect role).
+
+    Referral:
+      type: object
+      required:
+        - resourceType
+        - id
+        - oleVersion
+        - module
+        - referralType
+        - status
+        - createdAt
+        - participants
+        - matterSummary
+        - visibility
+        - extensions
+      properties:
+        resourceType:
+          type: string
+          enum: [Referral]
+        id:
+          type: string
+          example: ole_ref_2026_0522_001
+        oleVersion:
+          $ref: '#/components/schemas/OleVersion'
+        module:
+          type: string
+          enum: [clear]
+        referralType:
+          type: string
+          enum:
+            - attorney_to_attorney
+            - firm_to_firm
+            - bar_to_attorney
+            - legal_aid_to_attorney
+            - referral_service_to_attorney
+        status:
+          type: string
+          enum:
+            - draft
+            - sent
+            - received
+            - under_review
+            - accepted
+            - declined
+            - conflict_check_pending
+            - client_contacted
+            - engagement_pending
+            - engaged
+            - closed_no_engagement
+            - closed_referred_elsewhere
+            - closed_completed
+            - cancelled
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        sentAt:
+          type: string
+          format: date-time
+        referringInstitution:
+          type: string
+          description: OLE Institution ID of the referring firm.
+        receivingInstitution:
+          type: string
+          description: OLE Institution ID of the receiving firm.
+        participants:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ReferralParticipant'
+        matterSummary:
+          $ref: '#/components/schemas/MatterSummary'
+        feeArrangement:
+          type: object
+          properties:
+            feeSharingExpected:
+              type: boolean
+            ruleBasis:
+              type: array
+              items:
+                type: string
+            requiresWrittenConsent:
+              type: boolean
+            consentRecord:
+              type: string
+              description: OLE ConsentRecord ID.
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        audit:
+          type: object
+          properties:
+            createdBy:
+              type: string
+            auditTrail:
+              type: array
+              items:
+                type: string
+        externalIds:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExternalId'
+        extensions:
+          type: object
+
+    StatusUpdate:
+      type: object
+      required:
+        - resourceType
+        - id
+        - oleVersion
+        - module
+        - referral
+        - previousStatus
+        - newStatus
+        - updatedBy
+        - updatedAt
+        - visibility
+        - extensions
+      properties:
+        resourceType:
+          type: string
+          enum: [StatusUpdate]
+        id:
+          type: string
+          example: ole_status_2026_0522_001
+        oleVersion:
+          $ref: '#/components/schemas/OleVersion'
+        module:
+          type: string
+          enum: [clear]
+        referral:
+          type: string
+          description: OLE Referral ID this update applies to.
+        previousStatus:
+          type: string
+        newStatus:
+          type: string
+        updatedBy:
+          type: string
+          description: OLE Actor ID of the actor making this update.
+        updatedAt:
+          type: string
+          format: date-time
+        note:
+          type: string
+        visibility:
+          $ref: '#/components/schemas/Visibility'
+        extensions:
+          type: object
+
+    OleDiscovery:
+      type: object
+      description: OLE discovery document returned at /.well-known/ole
+      properties:
+        oleVersion:
+          $ref: '#/components/schemas/OleVersion'
+        modules:
+          type: array
+          items:
+            type: string
+          example: ["clear"]
+        conformanceProfile:
+          type: string
+          example: ole-clear-exchange-draft-v0.1
+        conformanceStatus:
+          type: string
+          enum: [draft, self_declared, sandbox_validated, third_party_validated]
+          example: self_declared
+        technicalContact:
+          type: string
+          example: tech@example.com
+        apiBaseUrl:
+          type: string
+          example: https://example.com/ole/v1
+
+    OleError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              example: ole.validation.required_field_missing
+            message:
+              type: string
+              example: "The field `participants` is required."
+            resourceType:
+              type: string
+            field:
+              type: string
+            traceId:
+              type: string
+            documentationUrl:
+              type: string
+
+paths:
+  /.well-known/ole:
+    get:
+      summary: OLE discovery document
+      description: |
+        Returns the OLE capability discovery document for this endpoint.
+        Declares supported OLE version, modules, conformance profile, and technical contact.
+        This endpoint SHOULD be publicly accessible without authentication.
+      security: []
+      responses:
+        '200':
+          description: OLE discovery document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OleDiscovery'
+              example:
+                oleVersion: "0.1"
+                modules: ["clear"]
+                conformanceProfile: "ole-clear-exchange-draft-v0.1"
+                conformanceStatus: "self_declared"
+                technicalContact: "tech@example.com"
+                apiBaseUrl: "https://example.com/ole/v1"
+
+  /clear/referrals:
+    post:
+      summary: Create or send a CLEAR referral
+      description: |
+        Creates a new CLEAR referral. The referral may be submitted as `draft` (not yet sent)
+        or as `sent` (transmitted to the receiving participant).
+
+        Idempotency is RECOMMENDED. Supply an `Idempotency-Key` header to prevent duplicate referrals.
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: false
+          schema:
+            type: string
+          description: Client-generated idempotency key to prevent duplicate submissions.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Referral'
+            example:
+              resourceType: Referral
+              id: ole_ref_2026_0522_001
+              oleVersion: "0.1"
+              module: clear
+              referralType: attorney_to_attorney
+              status: sent
+              createdAt: "2026-05-22T16:45:00-04:00"
+              updatedAt: "2026-05-22T16:46:00-04:00"
+              sentAt: "2026-05-22T16:46:00-04:00"
+              referringInstitution: ole_inst_tejeda_law
+              receivingInstitution: ole_inst_santos_hoa_law
+              participants:
+                - role: referring_attorney
+                  actor: ole_actor_roxana_tejeda
+                - role: receiving_attorney
+                  actor: ole_actor_maria_santos
+                - role: prospect
+                  prospect: ole_prospect_2026_0522_001
+              matterSummary:
+                practiceArea: housing
+                subPracticeArea: hoa_dispute
+                jurisdiction:
+                  country: US
+                  state: FL
+                  county: Miami-Dade
+                summary: Prospect reports dispute with HOA regarding notice and assessment procedure.
+                urgency: standard
+                rulesImplicated: ["ole_rule_fs718"]
+              feeArrangement:
+                feeSharingExpected: true
+                ruleBasis: ["ole_rule_fl_bar_4_1_5"]
+                requiresWrittenConsent: true
+                consentRecord: ole_consent_2026_0522_001
+              visibility:
+                scope: participant_visible
+              externalIds: []
+              extensions: {}
+      responses:
+        '201':
+          description: Referral created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Referral'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OleError'
+        '401':
+          description: Unauthorized
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OleError'
+
+  /clear/referrals/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: OLE referral ID
+    get:
+      summary: Get a referral by ID
+      description: Returns the full referral resource. Only accessible to authorized participants.
+      responses:
+        '200':
+          description: Referral resource
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Referral'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden — caller is not a participant in this referral
+        '404':
+          description: Referral not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OleError'
+    patch:
+      summary: Update a referral
+      description: |
+        Updates mutable fields on a referral. Status updates SHOULD use the
+        `/referrals/{id}/status-updates` endpoint rather than patching status directly.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Partial referral object with fields to update.
+      responses:
+        '200':
+          description: Referral updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Referral'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OleError'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Referral not found
+
+  /clear/referrals/{id}/status-updates:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: OLE referral ID
+    post:
+      summary: Add a status update to a referral
+      description: |
+        Records a status change event on a referral. Creates an associated `StatusUpdate`
+        resource and appends an `AuditEvent`.
+
+        Idempotency is RECOMMENDED. Supply an `Idempotency-Key` header to prevent duplicate updates.
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: false
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StatusUpdate'
+            example:
+              resourceType: StatusUpdate
+              id: ole_status_2026_0522_001
+              oleVersion: "0.1"
+              module: clear
+              referral: ole_ref_2026_0522_001
+              previousStatus: sent
+              newStatus: received
+              updatedBy: ole_actor_maria_santos
+              updatedAt: "2026-05-22T17:02:00-04:00"
+              note: Referral received and pending conflict check.
+              visibility:
+                scope: participant_visible
+              extensions: {}
+      responses:
+        '201':
+          description: Status update created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusUpdate'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OleError'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Referral not found
+
+  /webhooks:
+    post:
+      summary: Register a webhook endpoint
+      description: |
+        Registers a webhook endpoint to receive OLE event notifications.
+
+        All OLE webhooks SHOULD be signed using `OLE-Signature`, `OLE-Timestamp`,
+        and `OLE-Event-Id` headers. Receiving systems SHOULD verify signatures before
+        processing events.
+
+        **Supported webhook events:**
+        - `referral.sent`
+        - `referral.received`
+        - `referral.status_updated`
+        - `referral.accepted`
+        - `referral.declined`
+        - `referral.closed`
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url, events]
+              properties:
+                url:
+                  type: string
+                  format: uri
+                  description: HTTPS URL to deliver webhook events to.
+                events:
+                  type: array
+                  items:
+                    type: string
+                  description: Events to subscribe to.
+                secret:
+                  type: string
+                  description: Shared secret used to sign webhook deliveries (RECOMMENDED).
+      responses:
+        '201':
+          description: Webhook registered
+        '400':
+          description: Invalid request

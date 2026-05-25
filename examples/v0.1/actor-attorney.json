@@ -1,0 +1,38 @@
+{
+  "resourceType": "Actor",
+  "id": "ole_actor_roxana_tejeda",
+  "oleVersion": "0.1",
+  "module": "core",
+  "actorType": "human",
+  "sector": [
+    "legal"
+  ],
+  "name": {
+    "display": "Roxana Tejeda",
+    "given": "Roxana",
+    "family": "Tejeda"
+  },
+  "credentials": [
+    {
+      "credentialType": "bar_admission",
+      "issuedBy": "ole_inst_fl_bar",
+      "jurisdiction": {
+        "country": "US",
+        "state": "FL"
+      },
+      "identifier": "123456",
+      "status": "active",
+      "verifiedAt": "2026-05-01T00:00:00Z",
+      "verificationMethod": "api_lookup",
+      "verificationSource": "fl_bar_member_database"
+    }
+  ],
+  "institutionMemberships": [
+    "ole_membership_roxana_tejeda_law"
+  ],
+  "visibility": {
+    "scope": "participant_visible"
+  },
+  "externalIds": [],
+  "extensions": {}
+}

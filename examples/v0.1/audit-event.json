@@ -1,0 +1,18 @@
+{
+  "resourceType": "AuditEvent",
+  "id": "ole_audit_2026_0522_001",
+  "oleVersion": "0.1",
+  "module": "clear",
+  "createdAt": "2026-05-22T16:46:00-04:00",
+  "actor": "ole_actor_roxana_tejeda",
+  "actorType": "human",
+  "actionType": "referral.sent",
+  "resourceType_ref": "Referral",
+  "resourceId": "ole_ref_2026_0522_001",
+  "timestamp": "2026-05-22T16:46:00-04:00",
+  "note": "Referral sent to Maria Santos at Santos HOA Law.",
+  "visibility": {
+    "scope": "participant_visible"
+  },
+  "extensions": {}
+}

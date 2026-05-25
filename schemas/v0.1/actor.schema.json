@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openlegalexchange.org/schemas/core/v0.1/actor.schema.json",
+  "title": "OLE Actor",
+  "type": "object",
+  "required": [
+    "resourceType",
+    "id",
+    "oleVersion",
+    "actorType",
+    "name",
+    "extensions"
+  ],
+  "properties": {
+    "resourceType": {
+      "const": "Actor"
+    },
+    "id": {
+      "type": "string"
+    },
+    "oleVersion": {
+      "type": "string"
+    },
+    "actorType": {
+      "type": "string",
+      "enum": [
+        "human",
+        "ai_agent",
+        "system",
+        "institution_as_actor"
+      ]
+    },
+    "sector": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "name": {
+      "type": "object"
+    },
+    "credentials": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "aiProperties": {
+      "type": "object"
+    },
+    "institutionMemberships": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openlegalexchange.org/schemas/core/v0.1/resource-envelope.schema.json",
+  "title": "OLE Resource Envelope",
+  "description": "Common envelope fields shared by all OLE resources. Draft schema — v0.1. Every OLE resource must include these fields. Modules may add fields but must not remove or redefine envelope fields.",
+  "type": "object",
+  "required": [
+    "resourceType",
+    "id",
+    "oleVersion",
+    "createdAt",
+    "visibility",
+    "extensions"
+  ],
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "description": "OLE resource type, e.g., 'Actor', 'Referral', 'AuditEvent', 'ConsentRecord'."
+    },
+    "id": {
+      "type": "string",
+      "description": "Stable identifier assigned by the issuing system. Must not be reassigned to a different resource."
+    },
+    "oleVersion": {
+      "type": "string",
+      "description": "OLE version used by this resource, e.g., '0.1'."
+    },
+    "module": {
+      "type": "string",
+      "description": "OLE module namespace, e.g., 'core', 'clear'. Recommended."
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the resource was created."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the resource was last updated. Recommended."
+    },
+    "createdBy": {
+      "type": "string",
+      "description": "OLE Actor ID of the actor that created this resource. Recommended."
+    },
+    "owningInstitution": {
+      "type": "string",
+      "description": "OLE Institution ID of the institution responsible for this resource. Recommended."
+    },
+    "jurisdiction": {
+      "type": "object",
+      "description": "Jurisdictional context. Recommended.",
+      "properties": {
+        "country": { "type": "string" },
+        "state": { "type": "string" },
+        "county": { "type": "string" },
+        "locality": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "visibility": {
+      "type": "object",
+      "description": "Intended access scope declaration. Required on all OLE resources.",
+      "required": ["scope"],
+      "properties": {
+        "scope": {
+          "type": "string",
+          "enum": [
+            "private",
+            "participant_visible",
+            "institution_visible",
+            "network_visible",
+            "public",
+            "aggregate_public"
+          ],
+          "description": "Visibility scope. 'private': owning actor/institution only. 'participant_visible': named participants. 'institution_visible': owning institution. 'network_visible': defined network. 'public': public release. 'aggregate_public': public after aggregation thresholds."
+        }
+      },
+      "additionalProperties": true
+    },
+    "platformContext": {
+      "type": "object",
+      "description": "Originating platform and conformance profile. Recommended.",
+      "properties": {
+        "originatingPlatform": { "type": "string" },
+        "conformanceProfile": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "externalIds": {
+      "type": "array",
+      "description": "Identifiers from non-OLE systems. Optional.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "system": { "type": "string", "description": "Identifier of the external system." },
+          "type": { "type": "string", "description": "Type of identifier within that system." },
+          "value": { "type": "string", "description": "The external identifier value." }
+        },
+        "required": ["system", "type", "value"],
+        "additionalProperties": false
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Namespaced implementer-specific fields. Must not redefine core field meanings. Field names should use '{namespace}:{fieldName}' pattern."
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,33 @@
+# Working files and drafts
+old/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Website (separate repo)
+site/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (if tooling is added later)
+node_modules/
+.env
+.env.local
+
+# Build output (if tooling is added later)
+dist/
+out/
+.next/
+
+# Images (served from website repo, not spec)
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
