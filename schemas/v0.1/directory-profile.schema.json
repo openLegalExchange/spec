@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openlegalexchange.org/schemas/v0.1/directory-profile.schema.json",
+  "title": "DirectoryProfile",
+  "description": "OLE CLEAR Directory Discovery Profile. Represents an attorney or legal organization's opt-in referral discovery record within the OLE network. v0.1 Public Draft.",
+  "type": "object",
+  "required": [
+    "resourceType",
+    "id",
+    "oleVersion",
+    "module",
+    "displayName",
+    "slug",
+    "firmName",
+    "city",
+    "county",
+    "state",
+    "country",
+    "practiceAreas",
+    "practiceAreaLabels",
+    "languages",
+    "languageLabels",
+    "acceptsReferrals",
+    "attorneyToAttorneyOnly",
+    "clearEnabled",
+    "acceptsDirectConsumerContact",
+    "credentialStatus",
+    "visibility"
+  ],
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "DirectoryProfile",
+      "description": "Always 'DirectoryProfile'."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^ole_dir_[a-z0-9_]+$",
+      "description": "Unique OLE directory profile identifier."
+    },
+    "oleVersion": {
+      "type": "string",
+      "const": "0.1",
+      "description": "OLE version string."
+    },
+    "module": {
+      "type": "string",
+      "const": "clear",
+      "description": "OLE module this profile belongs to."
+    },
+    "actor": {
+      "type": "string",
+      "description": "Reference to an OLE Actor resource ID."
+    },
+    "institution": {
+      "type": "string",
+      "description": "Reference to an OLE Institution resource ID."
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Attorney display name."
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$",
+      "description": "URL-safe unique slug for this profile."
+    },
+    "firmName": {
+      "type": "string",
+      "description": "Name of the attorney's firm or organization."
+    },
+    "city": {
+      "type": "string",
+      "description": "City of primary practice."
+    },
+    "county": {
+      "type": "string",
+      "description": "County of primary practice."
+    },
+    "state": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 2,
+      "description": "State abbreviation (US), e.g. 'FL'."
+    },
+    "country": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 2,
+      "description": "ISO 3166-1 alpha-2 country code, e.g. 'US'."
+    },
+    "practiceAreas": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Machine-readable practice area codes.",
+      "examples": [["hoa_disputes", "condominium_law"]]
+    },
+    "practiceAreaLabels": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Human-readable practice area labels corresponding to practiceAreas."
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 2,
+        "maxLength": 2
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "ISO 639-1 language codes.",
+      "examples": [["en", "es"]]
+    },
+    "languageLabels": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Human-readable language labels corresponding to languages."
+    },
+    "acceptsReferrals": {
+      "type": "boolean",
+      "description": "Whether this attorney is currently accepting referrals."
+    },
+    "attorneyToAttorneyOnly": {
+      "type": "boolean",
+      "description": "If true, referrals are only accepted from licensed attorneys."
+    },
+    "clearEnabled": {
+      "type": "boolean",
+      "description": "If true, this attorney accepts CLEAR-formatted referral packets."
+    },
+    "acceptsDirectConsumerContact": {
+      "type": "boolean",
+      "description": "If false, the directory may not be used for direct consumer or client contact."
+    },
+    "credentialStatus": {
+      "type": "string",
+      "enum": ["verified", "pending_verification", "self_declared"],
+      "description": "Credential verification tier for this profile."
+    },
+    "credentialSummary": {
+      "type": "object",
+      "description": "Summary of credential verification. Not an authoritative bar record.",
+      "properties": {
+        "credentialType": {
+          "type": "string",
+          "enum": ["bar_admission", "legal_aid_membership", "law_license", "other"],
+          "description": "Type of credential verified."
+        },
+        "jurisdiction": {
+          "type": "string",
+          "description": "Jurisdiction of the credential."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "inactive", "suspended", "unknown"],
+          "description": "Status of the credential per the source."
+        },
+        "verifiedAt": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "ISO 8601 datetime when verification was last performed. Null if self-declared."
+        },
+        "verificationSource": {
+          "type": "string",
+          "enum": ["public_bar_record", "self_declared", "third_party_verifier"],
+          "description": "Source of credential verification."
+        }
+      },
+      "required": ["credentialType", "jurisdiction", "status", "verificationSource"]
+    },
+    "referralPreferences": {
+      "type": "object",
+      "description": "Referral intake preferences for this attorney.",
+      "properties": {
+        "requiresClientConsentBeforeTransmission": {
+          "type": "boolean",
+          "description": "Whether client consent is required before referral data may be transmitted."
+        },
+        "preferredReferralMethod": {
+          "type": "string",
+          "enum": ["clear_packet", "email", "api"],
+          "description": "How this attorney prefers to receive referrals."
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Free-text referral preference notes."
+        }
+      }
+    },
+    "visibility": {
+      "type": "object",
+      "required": ["scope"],
+      "description": "Visibility controls for this profile.",
+      "properties": {
+        "scope": {
+          "type": "string",
+          "enum": ["network_visible", "public", "private"],
+          "description": "Who may see this profile. Only 'network_visible' and 'public' profiles are surfaced in directory search."
+        }
+      }
+    },
+    "sampleProfile": {
+      "type": "boolean",
+      "description": "If true, this is a sample or test profile and MUST NOT be used in production."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "resourceType": "DirectoryProfile",
+      "id": "ole_dir_maria_santos",
+      "oleVersion": "0.1",
+      "module": "clear",
+      "actor": "ole_actor_maria_santos",
+      "institution": "ole_inst_santos_hoa_law",
+      "displayName": "Maria Santos",
+      "slug": "maria-santos",
+      "firmName": "Santos HOA Law, P.A.",
+      "city": "Miami",
+      "county": "Miami-Dade",
+      "state": "FL",
+      "country": "US",
+      "practiceAreas": ["hoa_disputes", "condominium_law", "real_estate_litigation"],
+      "practiceAreaLabels": ["HOA disputes", "Condominium law", "Real estate litigation"],
+      "languages": ["en", "es"],
+      "languageLabels": ["English", "Spanish"],
+      "acceptsReferrals": true,
+      "attorneyToAttorneyOnly": true,
+      "clearEnabled": true,
+      "acceptsDirectConsumerContact": false,
+      "credentialStatus": "verified",
+      "credentialSummary": {
+        "credentialType": "bar_admission",
+        "jurisdiction": "FL",
+        "status": "active",
+        "verifiedAt": "2026-05-25T00:00:00Z",
+        "verificationSource": "public_bar_record"
+      },
+      "referralPreferences": {
+        "requiresClientConsentBeforeTransmission": true,
+        "preferredReferralMethod": "clear_packet",
+        "notes": "Accepts attorney-to-attorney HOA and condominium dispute referrals in South Florida."
+      },
+      "visibility": {
+        "scope": "network_visible"
+      }
+    }
+  ]
+}

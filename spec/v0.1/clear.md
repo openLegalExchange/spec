@@ -346,3 +346,220 @@ The following are planned for future CLEAR specifications:
 - CLEAR conformance test suite
 - CLEAR sandbox environment
 - Impact aggregation from CLEAR data into CIVIC module
+
+---
+
+## Directory Discovery Profile
+
+### Purpose
+
+The `DirectoryProfile` resource allows attorneys, firms, referral networks, legal aid organizations, and software providers to expose permissioned referral-discovery profiles within the OLE network.
+
+A `DirectoryProfile` is an **opt-in, actor-controlled** record that declares:
+- What jurisdiction and practice areas an attorney covers
+- What types of referrals they accept
+- What referral method they prefer (CLEAR packet, email, API)
+- What credential verification has been performed and by whom
+- What visibility scope applies (network-visible or public)
+
+Directory profiles power the CLEAR Attorney Directory — a permissioned discovery layer for attorney-to-attorney and legal-organization referral workflows.
+
+### Non-Goals
+
+A `DirectoryProfile` is not:
+- The authoritative attorney license record. OLE does not replace state bar records.
+- A ranking, recommendation, or endorsement of any attorney.
+- A consumer attorney-matching service or legal advice service.
+- A substitute for conflict checks, client consent, or attorney due diligence.
+- A guarantee of credential accuracy, availability, or competence.
+
+Credential status fields reference external authoritative sources where available and must not be interpreted as bar certification or official accreditation.
+
+### DirectoryProfile Resource Fields
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `resourceType` | string | REQUIRED | Always `"DirectoryProfile"` |
+| `id` | string | REQUIRED | Unique OLE resource identifier |
+| `oleVersion` | string | REQUIRED | OLE version string, e.g. `"0.1"` |
+| `module` | string | REQUIRED | Always `"clear"` |
+| `displayName` | string | REQUIRED | Attorney display name |
+| `slug` | string | REQUIRED | URL-safe identifier, e.g. `"maria-santos"` |
+| `firmName` | string | REQUIRED | Firm or organization name |
+| `city` | string | REQUIRED | City of primary practice |
+| `county` | string | REQUIRED | County of primary practice |
+| `state` | string | REQUIRED | State abbreviation, e.g. `"FL"` |
+| `country` | string | REQUIRED | ISO 3166-1 alpha-2 country code |
+| `practiceAreas` | string[] | REQUIRED | Machine-readable practice area codes |
+| `practiceAreaLabels` | string[] | REQUIRED | Human-readable practice area labels |
+| `languages` | string[] | REQUIRED | ISO 639-1 language codes |
+| `languageLabels` | string[] | REQUIRED | Human-readable language labels |
+| `acceptsReferrals` | boolean | REQUIRED | Whether the attorney is currently accepting referrals |
+| `attorneyToAttorneyOnly` | boolean | REQUIRED | If true, only accepts referrals from licensed attorneys |
+| `clearEnabled` | boolean | REQUIRED | Whether the attorney accepts CLEAR-formatted referral packets |
+| `acceptsDirectConsumerContact` | boolean | REQUIRED | If false, the directory may not be used for direct client contact |
+| `credentialStatus` | string | REQUIRED | `verified`, `pending_verification`, or `self_declared` |
+| `credentialSummary` | object | RECOMMENDED | See below |
+| `referralPreferences` | object | RECOMMENDED | See below |
+| `visibility` | object | REQUIRED | Visibility scope: `network_visible` or `public` |
+| `actor` | string | OPTIONAL | Reference to an OLE Actor resource |
+| `institution` | string | OPTIONAL | Reference to an OLE Institution resource |
+
+#### credentialSummary Object
+
+| Field | Type | Description |
+|---|---|---|
+| `credentialType` | string | Type of credential, e.g. `"bar_admission"` |
+| `jurisdiction` | string | Jurisdiction of credential, e.g. `"FL"` |
+| `status` | string | Status per source: `active`, `inactive`, `suspended` |
+| `verifiedAt` | string (ISO 8601) | When verification was last performed. Null if self-declared. |
+| `verificationSource` | string | `public_bar_record`, `self_declared`, `third_party_verifier` |
+
+#### referralPreferences Object
+
+| Field | Type | Description |
+|---|---|---|
+| `requiresClientConsentBeforeTransmission` | boolean | Whether client consent is required before referral data is transmitted |
+| `preferredReferralMethod` | string | `clear_packet`, `email`, `api` |
+| `notes` | string | Free-text referral preference notes |
+
+### DirectoryProfile JSON Example
+
+```json
+{
+  "resourceType": "DirectoryProfile",
+  "id": "ole_dir_maria_santos",
+  "oleVersion": "0.1",
+  "module": "clear",
+  "actor": "ole_actor_maria_santos",
+  "institution": "ole_inst_santos_hoa_law",
+  "displayName": "Maria Santos",
+  "slug": "maria-santos",
+  "firmName": "Santos HOA Law, P.A.",
+  "city": "Miami",
+  "county": "Miami-Dade",
+  "state": "FL",
+  "country": "US",
+  "practiceAreas": [
+    "hoa_disputes",
+    "condominium_law",
+    "real_estate_litigation"
+  ],
+  "practiceAreaLabels": [
+    "HOA disputes",
+    "Condominium law",
+    "Real estate litigation"
+  ],
+  "languages": ["en", "es"],
+  "languageLabels": ["English", "Spanish"],
+  "acceptsReferrals": true,
+  "attorneyToAttorneyOnly": true,
+  "clearEnabled": true,
+  "acceptsDirectConsumerContact": false,
+  "credentialStatus": "verified",
+  "credentialSummary": {
+    "credentialType": "bar_admission",
+    "jurisdiction": "FL",
+    "status": "active",
+    "verifiedAt": "2026-05-25T00:00:00Z",
+    "verificationSource": "public_bar_record"
+  },
+  "referralPreferences": {
+    "requiresClientConsentBeforeTransmission": true,
+    "preferredReferralMethod": "clear_packet",
+    "notes": "Accepts attorney-to-attorney HOA and condominium dispute referrals in South Florida."
+  },
+  "visibility": {
+    "scope": "network_visible"
+  }
+}
+```
+
+### Search Filters
+
+Implementations exposing directory search SHOULD support the following filter parameters:
+
+| Parameter | Type | Description |
+|---|---|---|
+| `q` | string | Full-text search across name, firm, practice area, county, language |
+| `state` | string | Filter by state abbreviation |
+| `county` | string | Filter by county name |
+| `practiceArea` | string | Filter by practice area code |
+| `language` | string | Filter by ISO 639-1 language code |
+| `acceptsReferrals` | boolean | If true, return only profiles where `acceptsReferrals` is true |
+| `attorneyToAttorneyOnly` | boolean | If true, return only attorney-to-attorney profiles |
+| `clearEnabled` | boolean | If true, return only CLEAR-enabled profiles |
+| `credentialStatus` | string | Filter by credential status |
+
+### Privacy Controls and Visibility Rules
+
+Implementations MUST:
+- Only surface profiles where `visibility.scope` is `network_visible` or `public`
+- Never expose private contact information (personal phone, personal email) via directory APIs
+- Require explicit opt-in before creating a `DirectoryProfile` for any actor
+- Allow attorneys to withdraw or update their profile at any time
+- Not infer availability or contact information not explicitly provided in the profile
+
+Implementations SHOULD:
+- Debounce search queries to reduce server load (recommended: 250–400ms)
+- Limit results to 20 per page by default
+- Support empty state and loading state handling
+- Display active filter state visibly to the user
+- Provide a "clear filters" control
+
+### Credential Verification Summary
+
+`DirectoryProfile` supports three credential status tiers:
+
+| Status | Meaning |
+|---|---|
+| `verified` | Credential has been checked against an authoritative external source (e.g. state bar public record) |
+| `pending_verification` | Self-declared; third-party verification is in progress |
+| `self_declared` | Attorney has declared their own credentials; no external verification performed |
+
+`credentialStatus` is informational only. OLE is not the authoritative bar record. Users MUST independently verify bar status with the applicable state bar before establishing a referral relationship.
+
+### Federated Discovery Path
+
+In federated OLE deployments, systems MAY expose a directory search endpoint:
+
+```
+GET /ole/v1/directory/actors
+```
+
+> **Status: Draft — not implemented in v0.1**
+
+Supported query parameters (proposed):
+
+| Parameter | Description |
+|---|---|
+| `sector` | Legal sector filter |
+| `jurisdiction.country` | ISO 3166-1 alpha-2 country code |
+| `jurisdiction.state` | State abbreviation |
+| `jurisdiction.county` | County name |
+| `practiceArea` | Practice area code |
+| `language` | ISO 639-1 language code |
+| `acceptsReferrals` | Boolean |
+| `credentialStatus` | Credential tier |
+| `clearEnabled` | Boolean |
+
+Systems that support directory search SHOULD advertise it in their `/.well-known/ole` discovery document:
+
+```json
+{
+  "oleVersion": "0.1",
+  "directorySearch": true,
+  "directorySearchEndpoint": "https://example.com/ole/v1/directory/actors",
+  "supportedDirectoryFilters": [
+    "jurisdiction",
+    "practiceArea",
+    "language",
+    "acceptsReferrals",
+    "credentialStatus",
+    "clearEnabled"
+  ]
+}
+```
+
+This enables federated discovery across OLE nodes without a central registry.
+

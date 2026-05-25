@@ -343,6 +343,21 @@ components:
         apiBaseUrl:
           type: string
           example: https://example.com/ole/v1
+        directorySearch:
+          type: boolean
+          description: Whether this node exposes the OLE directory search endpoint.
+          example: true
+        directorySearchEndpoint:
+          type: string
+          format: uri
+          description: URL of the directory search endpoint, if directorySearch is true.
+          example: https://example.com/ole/v1/directory/actors
+        supportedDirectoryFilters:
+          type: array
+          description: List of filter parameters supported by the directory search endpoint.
+          items:
+            type: string
+          example: ["jurisdiction", "practiceArea", "language", "acceptsReferrals", "credentialStatus", "clearEnabled"]
 
     OleError:
       type: object
@@ -388,6 +403,15 @@ paths:
                 conformanceStatus: "self_declared"
                 technicalContact: "tech@example.com"
                 apiBaseUrl: "https://example.com/ole/v1"
+                directorySearch: true
+                directorySearchEndpoint: "https://example.com/ole/v1/directory/actors"
+                supportedDirectoryFilters:
+                  - jurisdiction
+                  - practiceArea
+                  - language
+                  - acceptsReferrals
+                  - credentialStatus
+                  - clearEnabled
 
   /clear/referrals:
     post:
