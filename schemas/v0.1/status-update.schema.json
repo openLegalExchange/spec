@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openlegalexchange.org/schemas/clear/v0.1/status-update.schema.json",
+  "title": "OLE CLEAR StatusUpdate",
+  "description": "Schema for the CLEAR StatusUpdate resource. Records a status change event on a Referral.",
+  "type": "object",
+  "required": [
+    "resourceType",
+    "id",
+    "oleVersion",
+    "referral",
+    "previousStatus",
+    "newStatus",
+    "updatedBy",
+    "updatedAt",
+    "visibility",
+    "extensions"
+  ],
+  "properties": {
+    "resourceType": {
+      "const": "StatusUpdate",
+      "description": "Always 'StatusUpdate' for this resource type."
+    },
+    "id": {
+      "type": "string",
+      "description": "Stable identifier for this status update event."
+    },
+    "oleVersion": {
+      "type": "string",
+      "description": "OLE specification version, e.g. '0.1'."
+    },
+    "module": {
+      "type": "string",
+      "description": "OLE module namespace. Should be 'clear' for CLEAR StatusUpdates."
+    },
+    "referral": {
+      "type": "string",
+      "description": "OLE Referral ID this status update applies to."
+    },
+    "previousStatus": {
+      "type": "string",
+      "description": "Status of the referral before this update.",
+      "enum": [
+        "draft",
+        "sent",
+        "received",
+        "under_review",
+        "accepted",
+        "declined",
+        "conflict_check_pending",
+        "client_contacted",
+        "engagement_pending",
+        "engaged",
+        "closed_no_engagement",
+        "closed_referred_elsewhere",
+        "closed_completed",
+        "cancelled"
+      ]
+    },
+    "newStatus": {
+      "type": "string",
+      "description": "Status of the referral after this update.",
+      "enum": [
+        "draft",
+        "sent",
+        "received",
+        "under_review",
+        "accepted",
+        "declined",
+        "conflict_check_pending",
+        "client_contacted",
+        "engagement_pending",
+        "engaged",
+        "closed_no_engagement",
+        "closed_referred_elsewhere",
+        "closed_completed",
+        "cancelled"
+      ]
+    },
+    "updatedBy": {
+      "type": "string",
+      "description": "OLE Actor ID of the actor making this status change."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the status was changed."
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note visible to referral participants. OPTIONAL."
+    },
+    "visibility": {
+      "type": "object",
+      "description": "Intended access scope declaration.",
+      "required": ["scope"],
+      "properties": {
+        "scope": {
+          "type": "string",
+          "enum": [
+            "private",
+            "participant_visible",
+            "institution_visible",
+            "network_visible",
+            "public",
+            "aggregate_public"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Namespaced implementer-specific fields. May be empty {}."
+    }
+  },
+  "additionalProperties": true
+}

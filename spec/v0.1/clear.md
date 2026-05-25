@@ -210,8 +210,14 @@ See the Core specification for the full `ConsentRecord` format.
 | `ruleBasis` | array | OLE Rule IDs governing the fee arrangement (e.g., `ole_rule_fl_bar_4_1_5`). |
 | `requiresWrittenConsent` | boolean | Whether written client consent is required by applicable rules. |
 | `consentRecord` | string | OLE ID of the consent record documenting client consent to the fee division. |
+| `feeType` | string | OPTIONAL. Type of fee arrangement: `percentage`, `flat_fee`, `reciprocal`, `no_fee`. |
+| `feeAmount` | number | OPTIONAL. Percentage (0–100) or dollar amount depending on `feeType`. |
+| `feeCurrency` | string | OPTIONAL. Currency code for `feeAmount`. Defaults to `USD`. |
+| `divisionMethod` | string | OPTIONAL. How fees are divided: `proportional`, `joint_responsibility`. Per Rule 4-1.5(g) / Model Rule 1.5(e). |
+| `personalInjuryCase` | boolean | OPTIONAL. If `true`, triggers PI fee cap awareness. |
+| `feeNotes` | string | OPTIONAL. Free text describing the fee arrangement. |
 
-Fee arrangement details are intentionally minimal in v0.1. Full fee modeling (rates, settlement, reconciliation) is deferred to a future CLEAR extension.
+These fields are OPTIONAL in v0.1. Full fee modeling, settlement tracking, and reconciliation are planned for a future CLEAR extension.
 
 ---
 

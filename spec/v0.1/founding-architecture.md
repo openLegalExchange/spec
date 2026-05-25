@@ -370,7 +370,7 @@ All v0.1 conformance profiles carry `draft` status. No certification is availabl
 
 ### Discovery Document
 
-OLE systems SHOULD advertise their capabilities via a discovery document at `/.well-known/ole-discovery.json`:
+OLE systems SHOULD advertise their capabilities via a discovery document at `GET /.well-known/ole`:
 
 ```json
 {

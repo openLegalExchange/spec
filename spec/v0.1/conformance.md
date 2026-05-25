@@ -77,7 +77,7 @@ A system conforming to this profile sends and receives OLE CLEAR resources via R
 
 - Satisfy all requirements of `ole-clear-packet-draft-v0.1`
 - Implement: `POST /referrals`, `GET /referrals/{id}`, `POST /referrals/{id}/status`, `GET /referrals`
-- Serve a valid discovery document at `GET /.well-known/ole-discovery.json`
+- Serve a valid discovery document at `GET /.well-known/ole`
 - Use HTTPS (TLS 1.2+) on all endpoints
 - Require bearer token authentication on all endpoints except the discovery document
 - Support the complete minimum CLEAR referral workflow (all five stages)

@@ -80,10 +80,35 @@
     },
     "platformContext": {
       "type": "object",
-      "description": "Originating platform and conformance profile. Recommended.",
+      "description": "Identifies the software platform that created, transmitted, or hosts this resource. Enables adoption measurement and interoperability debugging. RECOMMENDED.",
       "properties": {
-        "originatingPlatform": { "type": "string" },
-        "conformanceProfile": { "type": "string" }
+        "originatingPlatform": {
+          "type": "string",
+          "description": "System that created this resource (e.g., certusgate, clio, smokeball). Set once at creation, never changes."
+        },
+        "originatingVersion": {
+          "type": "string",
+          "description": "Version of the originating platform."
+        },
+        "transmittingPlatform": {
+          "type": "string",
+          "description": "System that sent or relayed this resource. May differ from originating."
+        },
+        "hostingPlatform": {
+          "type": "string",
+          "description": "System currently storing and serving this resource."
+        },
+        "platformUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the originating platform."
+        },
+        "conformanceTier": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "description": "OLE conformance tier implemented by the originating platform."
+        }
       },
       "additionalProperties": true
     },

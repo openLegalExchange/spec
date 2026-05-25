@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openlegalexchange.org/schemas/clear/v0.1/referral.schema.json",
   "title": "OLE CLEAR Referral",
+  "description": "Schema for the CLEAR Referral resource. Defines the minimum valid structure for a CLEAR referral packet in OLE v0.1.",
   "type": "object",
   "required": [
     "resourceType",
@@ -10,6 +11,7 @@
     "module",
     "referralType",
     "status",
+    "createdAt",
     "participants",
     "matterSummary",
     "visibility",
@@ -17,22 +19,35 @@
   ],
   "properties": {
     "resourceType": {
-      "const": "Referral"
+      "const": "Referral",
+      "description": "Always 'Referral' for this resource type."
     },
     "id": {
-      "type": "string"
+      "type": "string",
+      "description": "Stable identifier assigned by the issuing system. Must not be reassigned."
     },
     "oleVersion": {
-      "type": "string"
+      "type": "string",
+      "description": "OLE specification version, e.g. '0.1'."
     },
     "module": {
-      "const": "clear"
+      "const": "clear",
+      "description": "Always 'clear' for CLEAR module resources."
     },
     "referralType": {
-      "type": "string"
+      "type": "string",
+      "description": "Category of referral relationship.",
+      "enum": [
+        "attorney_to_attorney",
+        "firm_to_firm",
+        "bar_to_attorney",
+        "legal_aid_to_attorney",
+        "referral_service_to_attorney"
+      ]
     },
     "status": {
       "type": "string",
+      "description": "Current status of the referral. Must be one of the 14 defined CLEAR statuses.",
       "enum": [
         "draft",
         "sent",
@@ -50,24 +65,177 @@
         "cancelled"
       ]
     },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the referral was created."
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the referral was last updated. RECOMMENDED."
+    },
+    "sentAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the referral was transmitted. RECOMMENDED."
+    },
+    "referringInstitution": {
+      "type": "string",
+      "description": "OLE Institution ID of the referring firm or organization. RECOMMENDED."
+    },
+    "receivingInstitution": {
+      "type": "string",
+      "description": "OLE Institution ID of the receiving firm or organization. RECOMMENDED."
+    },
     "participants": {
       "type": "array",
+      "description": "All actors participating in this referral. At least one is required.",
       "minItems": 1,
       "items": {
-        "type": "object"
+        "type": "object",
+        "required": ["role"],
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "Participant role in the referral.",
+            "enum": [
+              "referring_attorney",
+              "receiving_attorney",
+              "referring_institution",
+              "receiving_institution",
+              "prospect",
+              "referral_coordinator"
+            ]
+          },
+          "actor": {
+            "type": "string",
+            "description": "OLE Actor ID for human or AI participants."
+          },
+          "prospect": {
+            "type": "string",
+            "description": "OLE Prospect ID for the prospect role."
+          }
+        },
+        "additionalProperties": true
       }
     },
     "matterSummary": {
-      "type": "object"
+      "type": "object",
+      "description": "Inline summary of the legal matter, practice area, jurisdiction, and urgency.",
+      "required": ["practiceArea", "jurisdiction"],
+      "properties": {
+        "practiceArea": { "type": "string" },
+        "subPracticeArea": { "type": "string" },
+        "jurisdiction": {
+          "type": "object",
+          "properties": {
+            "country": { "type": "string" },
+            "state": { "type": "string" },
+            "county": { "type": "string" },
+            "locality": { "type": "string" }
+          },
+          "additionalProperties": true
+        },
+        "summary": { "type": "string" },
+        "urgency": {
+          "type": "string",
+          "enum": ["low", "standard", "high", "urgent"],
+          "default": "standard"
+        },
+        "rulesImplicated": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "feeArrangement": {
+      "type": "object",
+      "description": "Fee-sharing structure and consent reference. OPTIONAL.",
+      "properties": {
+        "feeSharingExpected": { "type": "boolean" },
+        "ruleBasis": { "type": "array", "items": { "type": "string" } },
+        "requiresWrittenConsent": { "type": "boolean" },
+        "consentRecord": { "type": "string" },
+        "feeType": {
+          "type": "string",
+          "enum": ["percentage", "flat_fee", "reciprocal", "no_fee"],
+          "description": "OPTIONAL in v0.1."
+        },
+        "feeAmount": {
+          "type": "number",
+          "description": "Percentage (0–100) or dollar amount depending on feeType. OPTIONAL in v0.1."
+        },
+        "feeCurrency": {
+          "type": "string",
+          "default": "USD",
+          "description": "OPTIONAL in v0.1."
+        },
+        "divisionMethod": {
+          "type": "string",
+          "enum": ["proportional", "joint_responsibility"],
+          "description": "Per Rule 4-1.5(g) / Model Rule 1.5(e). OPTIONAL in v0.1."
+        },
+        "personalInjuryCase": {
+          "type": "boolean",
+          "description": "If true, triggers PI fee cap awareness. OPTIONAL in v0.1."
+        },
+        "feeNotes": {
+          "type": "string",
+          "description": "Free text about the fee arrangement. OPTIONAL in v0.1."
+        }
+      },
+      "additionalProperties": true
+    },
+    "consentRecord": {
+      "type": "string",
+      "description": "OLE ConsentRecord ID. RECOMMENDED."
     },
     "visibility": {
-      "type": "object"
+      "type": "object",
+      "description": "Intended access scope declaration.",
+      "required": ["scope"],
+      "properties": {
+        "scope": {
+          "type": "string",
+          "enum": [
+            "private",
+            "participant_visible",
+            "institution_visible",
+            "network_visible",
+            "public",
+            "aggregate_public"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "audit": {
+      "type": "object",
+      "description": "Audit metadata. RECOMMENDED.",
+      "properties": {
+        "createdBy": { "type": "string" },
+        "auditTrail": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
     },
     "externalIds": {
-      "type": "array"
+      "type": "array",
+      "description": "Identifiers from non-OLE systems. OPTIONAL.",
+      "items": {
+        "type": "object",
+        "required": ["system", "type", "value"],
+        "properties": {
+          "system": { "type": "string" },
+          "type": { "type": "string" },
+          "value": { "type": "string" }
+        }
+      }
     },
     "extensions": {
-      "type": "object"
+      "type": "object",
+      "description": "Namespaced implementer-specific fields. May be empty {}."
     }
   },
   "additionalProperties": true

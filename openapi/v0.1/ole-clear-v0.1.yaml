@@ -97,7 +97,7 @@ components:
           example: Prospect reports dispute with HOA regarding notice and assessment procedure.
         urgency:
           type: string
-          enum: [standard, urgent, emergency]
+          enum: [low, standard, high, urgent]
           default: standard
         rulesImplicated:
           type: array
@@ -124,6 +124,27 @@ components:
         prospect:
           type: string
           description: OLE Prospect or subject ID (for prospect role).
+
+    PlatformContext:
+      type: object
+      description: Identifies the software platform that created, transmitted, or hosts this resource.
+      properties:
+        originatingPlatform:
+          type: string
+          description: System that created this resource (e.g., certusgate, clio, smokeball).
+        originatingVersion:
+          type: string
+        transmittingPlatform:
+          type: string
+        hostingPlatform:
+          type: string
+        platformUrl:
+          type: string
+          format: uri
+        conformanceTier:
+          type: integer
+          minimum: 0
+          maximum: 10
 
     Referral:
       type: object
@@ -212,6 +233,26 @@ components:
             consentRecord:
               type: string
               description: OLE ConsentRecord ID.
+            feeType:
+              type: string
+              enum: [percentage, flat_fee, reciprocal, no_fee]
+              description: OPTIONAL in v0.1.
+            feeAmount:
+              type: number
+              description: Percentage (0–100) or dollar amount. OPTIONAL in v0.1.
+            feeCurrency:
+              type: string
+              description: Currency code. OPTIONAL in v0.1.
+            divisionMethod:
+              type: string
+              enum: [proportional, joint_responsibility]
+              description: Per Rule 4-1.5(g) / Model Rule 1.5(e). OPTIONAL in v0.1.
+            personalInjuryCase:
+              type: boolean
+              description: If true, triggers PI fee cap awareness. OPTIONAL in v0.1.
+            feeNotes:
+              type: string
+              description: Free text about the fee arrangement. OPTIONAL in v0.1.
         visibility:
           $ref: '#/components/schemas/Visibility'
         audit:
@@ -223,6 +264,8 @@ components:
               type: array
               items:
                 type: string
+        platformContext:
+          $ref: '#/components/schemas/PlatformContext'
         externalIds:
           type: array
           items:
@@ -401,8 +444,18 @@ paths:
                 ruleBasis: ["ole_rule_fl_bar_4_1_5"]
                 requiresWrittenConsent: true
                 consentRecord: ole_consent_2026_0522_001
+                feeType: percentage
+                feeAmount: 33
+                feeCurrency: USD
+                divisionMethod: proportional
+                personalInjuryCase: false
+                feeNotes: Standard referral fee per FL Bar Rule 4-1.5(g).
               visibility:
                 scope: participant_visible
+              platformContext:
+                originatingPlatform: certusgate
+                originatingVersion: "2.1.0"
+                conformanceTier: 1
               externalIds: []
               extensions: {}
       responses:
