@@ -30,7 +30,7 @@ The intended governance path is as follows:
 |-------|-------------|--------|
 | 1 | **Founder-stewarded draft publication** — Architecture and first module published publicly for comment. | **Current** |
 | 2 | **Public issue and RFC process** — Open GitHub issue tracker and RFC process for external proposals. | **Current (open)** |
-| 3 | **Advisory working group for CLEAR** — Invite practitioners, technologists, and standards experts to an informal CLEAR working group. | Planned |
+| 3 | **Advisory working group for CLEAR** — Invite practitioners, technologists, and standards experts to an informal CLEAR working group. | **Forming** |
 | 4 | **Multi-stakeholder technical steering group** — Form a technical steering committee with representation from implementers, legal professionals, and standards community. | Future |
 | 5 | **Independent nonprofit or standards-body governance** — If adoption warrants it, transition to independent nonprofit stewardship or submission to a recognized standards body (e.g., OASIS, W3C, or similar). | Long-term |
 
