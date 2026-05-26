@@ -56,7 +56,30 @@
     },
     "extensions": {
       "type": "object"
+    },
+    "profile": {
+      "type": "object",
+      "description": "Optional public-facing profile fields for directory and discovery display. Applies to all actor types: attorneys (headshot), firms and courts (logo/seal), legal aid organizations (logo), AI agents (icon).",
+      "properties": {
+        "imageUrl": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://",
+          "description": "HTTPS URL to the actor's public profile image. For individuals: headshot. For organizations and institutions: logo or official seal. Must be served over HTTPS. The actor or their platform controls this URL."
+        },
+        "bio": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Short plain-text bio or description (max 500 characters)."
+        },
+        "websiteUrl": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://",
+          "description": "HTTPS URL to the actor's primary public website."
+        }
+      },
+      "additionalProperties": false
     }
-  },
   "additionalProperties": true
 }

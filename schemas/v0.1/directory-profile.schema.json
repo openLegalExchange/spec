@@ -60,6 +60,12 @@
       "type": "string",
       "description": "Attorney display name."
     },
+    "imageUrl": {
+      "type": "string",
+      "format": "uri",
+      "pattern": "^https://",
+      "description": "Optional HTTPS URL to the actor's profile image (headshot for individuals, logo for firms/organizations). Inherited from core Actor profile.imageUrl. Must be served over HTTPS. Controlled by the actor or their platform."
+    },
     "slug": {
       "type": "string",
       "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$",
